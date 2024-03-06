@@ -1,71 +1,51 @@
 trigger:
-  - main
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
-  cdlFolderPath: 'path/to/CDLs' # Update this path as necessary
+parameters:
+- name: component
+  displayName: 'Select Component'
+  type: string
+  default: 'AIR'
+  values:
+  - AIR
+  - GROUND
+  - HMI
 
-steps:
+- name: libraryVersion
+  type: string
+  default: '1.0.0'
+
+jobs:
+- job: GenerateLibrary
+  displayName: 'Generate Component Library'
+  steps:
   - checkout: self
-    submodules: true
-
-  - script: echo Starting CI pipeline...
-    displayName: 'Echo start message'
-
-  # Assuming ZIP file is in your repo, if not you need to upload it manually to a cloud storage and download it here
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      buildType: 'current'
-      artifactName: 'idlZip' # Name of the artifact
-      itemPattern: '**/*.zip' # Pattern to match zip files
-      targetPath: '$(Build.SourcesDirectory)/idlFiles'
-
-  # Extract IDL Files from ZIP
-  - task: ExtractFiles@1
-    inputs:
-      archiveFilePatterns: '$(Build.SourcesDirectory)/idlFiles/*.zip'
-      destinationFolder: '$(Build.SourcesDirectory)/extractedIDLs'
-      cleanDestinationFolder: true
-    displayName: 'Extract IDL Files from ZIP'
-
-  # Compilation and Unit Tests
-  - task: Maven@3
-    inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'clean compile'
-      options: ''
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
-      mavenVersionOption: 'Default'
-      mavenAuthenticateFeed: false
-      effectivePomSkip: false
-      sonarQubeRunAnalysis: false
-    displayName: 'Maven Compile and Unit Tests'
-
-  # BDD Tests
-  - script: mvn verify -Pbdd
-    displayName: 'Run BDD Tests'
-
-  # Library Generation
+  
   - script: |
-      mvn clean install -DidlFolderPath=$(Build.SourcesDirectory)/extractedIDLs -DcdlFolderPath=$(cdlFolderPath)
-    displayName: 'Generate Library from IDLs and CDLs'
-
-
-  # Publish Artifact to Azure Artifacts
-  - task: Maven@3
+      echo "Generating library for component ${{ parameters.component }} with version ${{ parameters.libraryVersion }}"
+      # Add commands to checkout IDL/CDL files based on selected component
+      # e.g., git clone <repo-url>/<${{ parameters.component }}>.git
+    displayName: 'Checkout IDL and CDL Files'
+  
+  - script: |
+      # Add your library generation commands here
+      # Example: mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }}
+      echo "Library generation command would go here"
+    displayName: 'Generate Library'
+  
+  - task: CopyFiles@2
     inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'deploy'
-      options: '-DskipTests -DaltDeploymentRepository=snapshotRepo::default::https://pkgs.dev.azure.com/yourOrganization/_packaging/yourFeed/maven/v1'
-      publishJUnitResults: false
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
-      mavenVersionOption: 'Default'
-      mavenAuthenticateFeed: true
-    displayName: 'Publish Artifact to Azure Artifacts'
+      SourceFolder: '$(Build.SourcesDirectory)/path/to/generated/lib'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/${{ parameters.component }}'
+    displayName: 'Copy Generated Library'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/${{ parameters.component }}'
+      ArtifactName: 'GeneratedLibrary-${{ parameters.component }}'
+      publishLocation: 'container'
+    displayName: 'Publish Generated Library as Artifact'

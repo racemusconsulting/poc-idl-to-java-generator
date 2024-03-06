@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.racemus</groupId>
-    <artifactId>idl-to-java</artifactId>
+    <artifactId>${idlFolderPath}-middleware-connector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>${idlFolderPath}-middleware-connector</name>
     <description>IDL to Java generator</description>

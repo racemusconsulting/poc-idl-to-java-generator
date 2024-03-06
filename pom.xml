@@ -11,7 +11,7 @@
     <groupId>com.racemus</groupId>
     <artifactId>idl-to-java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>idl-to-java-generator</name>
+    <name>${idlFolderPath}-middleware-connector</name>
     <description>IDL to Java generator</description>
     <properties>
         <java.version>17</java.version>

@@ -145,9 +145,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-                 <build>
-    <plugins>
+          </plugin>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -157,7 +155,5 @@
             </configuration>
         </plugin>
     </plugins>
-</build>
-</plugins>
     </build>
 </project>

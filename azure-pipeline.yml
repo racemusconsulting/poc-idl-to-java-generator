@@ -29,6 +29,7 @@ jobs:
       tar -xvzf jacorb-3.9.tar.gz
       echo "JACORB successfully installed"
       # Set JACORB_HOME environment variable
+      ls -al $JACORB_HOME/bin
       echo "##vso[task.setvariable variable=JACORB_HOME]$(pwd)/jacorb-3.9"
     displayName: 'Install JACORB and Set JACORB_HOME'
 

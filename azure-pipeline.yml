@@ -1,0 +1,64 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  idlFolderPath: 'path/to/IDLs'
+  cdlFolderPath: 'path/to/CDLs'
+
+steps:
+  - script: echo Starting CI pipeline...
+    displayName: 'Echo start message'
+
+  # Compilation and Unit Tests
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean compile'
+      options: ''
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
+    displayName: 'Maven Compile and Unit Tests'
+
+  # BDD Tests
+  - script: mvn verify -Pbdd
+    displayName: 'Run BDD Tests'
+
+  # Library Generation
+  - script: |
+      mvn clean install -DidlFolderPath=$(idlFolderPath) -DcdlFolderPath=$(cdlFolderPath)
+    displayName: 'Generate Library from IDLs and CDLs'
+
+  # SonarQube Analysis
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloudServiceConnection'
+      organization: 'yourOrganization'
+      scannerMode: 'Other'
+      extraProperties: |
+        sonar.projectKey=yourProjectKey
+        sonar.exclusions=**/*.java
+  - script: mvn sonar:sonar
+    displayName: 'SonarQube Analysis'
+
+  # Publish Artifact to Azure Artifacts
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'deploy'
+      options: '-DskipTests -DaltDeploymentRepository=snapshotRepo::default::https://pkgs.dev.azure.com/yourOrganization/_packaging/yourFeed/maven/v1'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: true
+    displayName: 'Publish Artifact to Azure Artifacts'

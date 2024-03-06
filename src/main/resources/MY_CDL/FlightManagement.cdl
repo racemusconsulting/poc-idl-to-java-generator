@@ -1,0 +1,48 @@
+#ifndef FLIGHT_MANAGEMENT_CDL_INCLUDED
+#define FLIGHT_MANAGEMENT_CDL_INCLUDED
+//
+//
+//   Project         : POC CDL PARSING
+//   Component       : CDL Parser
+//   File Name       : FlightManagement.cdl
+//   Author          : RACEMUS CONSULTING
+//   Abstract        : The Flight Management definition
+//
+//   Change History  :
+//
+// ----------------------------------------------------------------------------
+//    Ver     Date     Who    Ref.  Comments
+//   -----  --------  -----  -----  -------------------------------------
+//   [1.0]  17.01.24   RC     None   Creation
+// ----------------------------------------------------------------------------
+//
+
+component flight_management  {
+
+    //======================================================================
+    //         PUBLISHED EVENTS
+    //-------------------------------------------------------------------
+    publishes    AddFlight::flightManagement::Flight	        flightManagement;
+    //-------------------------------------------------------------------
+
+    //======================================================================
+    //         PUBLISHED EVENTS
+    //-------------------------------------------------------------------
+    publishes   CancelFlight::flightManagement::Flight	        flightManagement;
+    //-------------------------------------------------------------------
+
+    //======================================================================
+    //          CONSUMED EVENTS
+    //-------------------------------------------------------------------
+    consumes   AddFlight::flightManagement::Flight	flightManagement;
+    //-------------------------------------------------------------------
+
+    //======================================================================
+    //          CONSUMED EVENTS
+    //-------------------------------------------------------------------
+    consumes   CancelFlight::flightManagement::Flight	flightManagement;
+    //-------------------------------------------------------------------
+  };
+
+
+#endif // FLIGHT_MANAGEMENT_CDL_INCLUDED

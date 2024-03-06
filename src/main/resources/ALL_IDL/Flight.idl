@@ -1,0 +1,16 @@
+module com {
+    module racemus {
+        module eurocontrol {
+            module idltojava {
+                module generated {
+                    module dto {
+                        struct Flight {
+                            string idFlight;
+                            string aircraftId;
+                        };
+                    };
+                };
+            };
+        };
+    };
+};

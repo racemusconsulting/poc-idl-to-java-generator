@@ -1,0 +1,20 @@
+// FlightEvent.idl
+#include <Flight.idl>
+#include <AeroPhase.idl>
+
+module com {
+    module racemus {
+        module eurocontrol {
+            module idltojava {
+                module generated {
+                    module dto {
+                        struct FlightEvent {
+                            Flight eventFlight;
+                            AeroPhase aeroPhaseFlight;
+                        };
+                    };
+                };
+            };
+        };
+    };
+};

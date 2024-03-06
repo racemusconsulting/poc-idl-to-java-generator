@@ -1,0 +1,19 @@
+module com {
+    module racemus {
+        module eurocontrol {
+            module idltojava {
+                module generated {
+                    module dto {
+                        enum AeroPhase {
+                            TAKE_OFF,
+                            INITIAL_CLIMB,
+                            CRUISE,
+                            APPROACH,
+                            LANDING
+                        };
+                    };
+                };
+             };
+        };
+    };
+};

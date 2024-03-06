@@ -37,7 +37,12 @@ jobs:
       echo "Generating library for component ${{ parameters.component }} with version ${{ parameters.libraryVersion }}"
       git clone https://github.com/racemusconsulting/poc-idl-cdl-files.git
     displayName: 'Checkout IDL and CDL Files'
-  
+
+  - script: |
+      sed -i 's/<artifactId>.*<\/artifactId>/<artifactId>${{ parameters.component }}-middleware-connector<\/artifactId>/' pom.xml
+      sed -i 's/<version>.*<\/version>/<version>${{ parameters.libraryVersion }}<\/version>/' pom.xml
+    displayName: 'Update library artifactId and version in POM with the component name'
+    
   - script: |
       mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS
       echo "Library generation command executed"

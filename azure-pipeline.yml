@@ -25,8 +25,8 @@ jobs:
   - checkout: self
 
   - script: |
-      wget http://www.jacorb.org/releases/3.9/jacorb-3.9.tar.gz
-      tar -xvzf jacorb-3.9.tar.gz
+      wget https://www.jacorb.org/releases/3.9/jacorb-3.9-binary.zip
+      unzip jacorb-3.9-binary.zip
       echo "JACORB successfully installed"
       # Set JACORB_HOME environment variable
       ls -al $JACORB_HOME/bin

@@ -39,9 +39,8 @@ jobs:
     displayName: 'Checkout IDL and CDL Files'
 
   - script: |
-      sed -i 's/<artifactId>.*<\/artifactId>/<artifactId>${{ parameters.component }}-middleware-connector<\/artifactId>/' pom.xml
-      sed -i 's/<version>.*<\/version>/<version>${{ parameters.libraryVersion }}<\/version>/' pom.xml
-    displayName: 'Update library artifactId and version in POM with the component name'
+    mvn clean install -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}
+  displayName: 'Build with Custom Artifact ID and Version'
     
   - script: |
       mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS

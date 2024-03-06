@@ -56,17 +56,6 @@ steps:
       mvn clean install -DidlFolderPath=$(Build.SourcesDirectory)/extractedIDLs -DcdlFolderPath=$(cdlFolderPath)
     displayName: 'Generate Library from IDLs and CDLs'
 
-  # SonarQube Analysis
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: 'SonarCloudServiceConnection'
-      organization: 'yourOrganization'
-      scannerMode: 'Other'
-      extraProperties: |
-        sonar.projectKey=yourProjectKey
-        sonar.exclusions=**/*.java
-  - script: mvn sonar:sonar
-    displayName: 'SonarQube Analysis'
 
   # Publish Artifact to Azure Artifacts
   - task: Maven@3

@@ -6,12 +6,30 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  idlFolderPath: 'path/to/IDLs'
-  cdlFolderPath: 'path/to/CDLs'
+  cdlFolderPath: 'path/to/CDLs' # Update this path as necessary
 
 steps:
+  - checkout: self
+    submodules: true
+
   - script: echo Starting CI pipeline...
     displayName: 'Echo start message'
+
+  # Assuming ZIP file is in your repo, if not you need to upload it manually to a cloud storage and download it here
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      buildType: 'current'
+      artifactName: 'idlZip' # Name of the artifact
+      itemPattern: '**/*.zip' # Pattern to match zip files
+      targetPath: '$(Build.SourcesDirectory)/idlFiles'
+
+  # Extract IDL Files from ZIP
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: '$(Build.SourcesDirectory)/idlFiles/*.zip'
+      destinationFolder: '$(Build.SourcesDirectory)/extractedIDLs'
+      cleanDestinationFolder: true
+    displayName: 'Extract IDL Files from ZIP'
 
   # Compilation and Unit Tests
   - task: Maven@3
@@ -35,7 +53,7 @@ steps:
 
   # Library Generation
   - script: |
-      mvn clean install -DidlFolderPath=$(idlFolderPath) -DcdlFolderPath=$(cdlFolderPath)
+      mvn clean install -DidlFolderPath=$(Build.SourcesDirectory)/extractedIDLs -DcdlFolderPath=$(cdlFolderPath)
     displayName: 'Generate Library from IDLs and CDLs'
 
   # SonarQube Analysis

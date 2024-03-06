@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class DtoGenerator {
 
-    private static final String IDL_COMPILER_COMMAND = "/opt/apps/jacorb-3.9/bin/idl";
+    private static final String IDL_COMPILER_COMMAND = "/bin/idl";
     private static final String JAVA_SOURCE_DIRECTORY = "src/main/java";
     private static final String IDL_PACKAGE_MAPPING = ".:AceAirEvents=com.racemus.eurocontrol.idltojava.generated.dto";
     private static final String IDL_INCLUDE_DIRECTORY = "/opt/workspace/java/atg/idl-to-java-generator/src/main/resources/ALL_IDL";

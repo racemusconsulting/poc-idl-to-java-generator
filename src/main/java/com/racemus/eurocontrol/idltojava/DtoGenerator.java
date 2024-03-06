@@ -67,7 +67,7 @@ public class DtoGenerator {
 
     private static List<String> buildCompilerCommand(String filePath) {
         List<String> command = new ArrayList<>();
-        command.add(IDL_COMPILER_COMMAND);
+        command.add(System.getenv("JACORB_HOME") + IDL_COMPILER_COMMAND);
         command.add("-d");
         command.add(JAVA_SOURCE_DIRECTORY);
         command.add("-i2jpackage");

@@ -26,26 +26,22 @@ jobs:
   
   - script: |
       echo "Generating library for component ${{ parameters.component }} with version ${{ parameters.libraryVersion }}"
-      # Add commands to checkout IDL/CDL files based on selected component
-      # e.g., git clone <repo-url>/<${{ parameters.component }}>.git
+      git clone git@github.com:racemusconsulting/poc-idl-cdl-files.git
     displayName: 'Checkout IDL and CDL Files'
   
   - script: |
-      # Add your library generation commands here
-      # Example: mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }}
-      echo "Library generation command would go here"
+      mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS
+      echo "Library generation command executed"
     displayName: 'Generate Library'
   
-  - task: CopyFiles@2
+  - task: Maven@3
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/path/to/generated/lib'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/${{ parameters.component }}'
-    displayName: 'Copy Generated Library'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/${{ parameters.component }}'
-      ArtifactName: 'GeneratedLibrary-${{ parameters.component }}'
-      publishLocation: 'container'
-    displayName: 'Publish Generated Library as Artifact'
+      mavenPomFile: 'pom.xml'
+      goals: 'deploy'
+      options: '-DskipTests -DaltDeploymentRepository=snapshotRepo::default::https://pkgs.dev.azure.com/racemusconsulting/_packaging/${{ parameters.component }}-middleware-connector/maven/v1'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: true
+    displayName: 'Publish Artifact to Azure Artifacts'

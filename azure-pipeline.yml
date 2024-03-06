@@ -37,7 +37,7 @@ jobs:
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'deploy'
+      goals: 'deploy -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
       options: '-DskipTests -DaltDeploymentRepository=snapshotRepo::default::https://pkgs.dev.azure.com/racemusconsulting/_packaging/${{ parameters.component }}-middleware-connector/maven/v1'
       publishJUnitResults: false
       javaHomeOption: 'JDKVersion'

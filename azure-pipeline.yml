@@ -8,9 +8,9 @@ parameters:
 - name: component
   displayName: 'Select Component'
   type: string
-  default: 'AIR'
+  default: 'ATG'
   values:
-  - AIR
+  - ATG
   - GROUND
   - HMI
 

@@ -38,6 +38,12 @@ jobs:
       git clone https://github.com/racemusconsulting/poc-idl-cdl-files.git
     displayName: 'Checkout IDL and CDL Files'
 
+
+  - script: |
+      sed -i 's|<artifactId>xxxx</artifactId>|<artifactId>${{ parameters.component }}-middleware-connector</artifactId>|' pom.xml
+      sed -i 's|<version>xxxx</version>|<version>${{ parameters.libraryVersion }}</version>|' pom.xml
+    displayName: 'Modify pom.xml with dynamic artifactId and version'
+
   - task: Maven@3
     displayName: Build
     inputs:
@@ -47,7 +53,7 @@ jobs:
       jdkVersionOption: '1.17'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
-      goals: 'clean -Dcomponent=${{ parameters.component }}  -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
+      goals: 'clean -Dcomponent=${{ parameters.component }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
 
   - task: MavenAuthenticate@0
     inputs:
@@ -63,6 +69,6 @@ jobs:
       jdkArchitectureOption: 'x64'
       mavenAuthenticateFeed: true
       publishJUnitResults: false
-      goals: 'jar:jar deploy:deploy -Dcomponent=${{ parameters.component }} -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}'
+      goals: 'jar:jar deploy:deploy -Dcomponent=${{ parameters.component }} '
     displayName: 'Publish Artifact to Azure Artifacts'
   

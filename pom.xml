@@ -11,14 +11,29 @@
     <groupId>com.racemus</groupId>
     <artifactId>middleware-connector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>${parameters.component}-middleware-connector</name>
+    <name>middleware-connector</name>
     <description>IDL to Java generator</description>
-  <properties>
+
+<properties>
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
 </properties>
+
+<distributionManagement>
+        <repository>
+            <id>atg</id>
+            <url>https://pkgs.dev.azure.com/racemusconsulting/atg-aircraft-performance/_packaging/${component}/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+ </distributionManagement>
+         
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

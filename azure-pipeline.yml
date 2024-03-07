@@ -16,7 +16,7 @@ parameters:
 
 - name: libraryVersion
   type: string
-  default: '1.0.0'
+  default: '1.0.0-SNAPSHOT'
 
 jobs:
 - job: GenerateLibrary

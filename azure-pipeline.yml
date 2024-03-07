@@ -43,6 +43,17 @@ jobs:
     displayName: 'Build with Custom Artifact ID and Version'
 
   - task: Maven@3
+    displayName: Build
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      goals: 'clean -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
+
+  - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
       mavenOptions: '-Xmx3072m'

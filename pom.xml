@@ -93,6 +93,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.racemus.eurocontrol.idltojava.IdlToJavaGeneratorApplication</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -163,6 +166,18 @@
                     </execution>
                 </executions>
           </plugin>
+         <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version> <!-- Ensure using a recent version -->
+                    <configuration>
+                        <includes>
+                            <include>com/racemus/eurocontrol/idltojava/generated/**</include>
+                            <include>com/racemus/eurocontrol/idltojava/NatsClient.java</include>
+                            <include>com/racemus/eurocontrol/idltojava/IdlToJavaGeneratorApplication.java</include>
+                        </includes>
+                    </configuration>
+         </plugin>
     </plugins>
     </build>
 </project>

@@ -41,15 +41,16 @@ jobs:
   - script: |
       mvn clean install -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}
     displayName: 'Build with Custom Artifact ID and Version'
-    
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'deploy -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
-      options: '-DskipTests -DaltDeploymentRepository=snapshotRepo::default::https://pkgs.dev.azure.com/racemusconsulting/_packaging/${{ parameters.component }}-middleware-connector/maven/v1'
-      publishJUnitResults: false
+      mavenOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.17'
-      mavenVersionOption: 'Default'
+      jdkArchitectureOption: 'x64'
       mavenAuthenticateFeed: true
+      publishJUnitResults: false
+      goals: 'deploy -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
     displayName: 'Publish Artifact to Azure Artifacts'
+  

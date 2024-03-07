@@ -62,6 +62,6 @@ jobs:
       jdkArchitectureOption: 'x64'
       mavenAuthenticateFeed: true
       publishJUnitResults: false
-      goals: 'deploy -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
+      goals: 'jar:jar deploy:deploy -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
     displayName: 'Publish Artifact to Azure Artifacts'
   

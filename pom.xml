@@ -14,9 +14,10 @@
     <name>${parameters.component}-middleware-connector</name>
     <description>IDL to Java generator</description>
   <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
 </properties>
     <dependencies>
         <dependency>
@@ -147,14 +148,6 @@
                     </execution>
                 </executions>
           </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version> <!-- Make sure this is 3.8.0 or above -->
-            <configuration>
-                <release>17</release> <!-- This requires Maven Compiler Plugin 3.6.0 or above -->
-            </configuration>
-        </plugin>
     </plugins>
     </build>
 </project>

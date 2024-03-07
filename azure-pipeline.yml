@@ -38,10 +38,6 @@ jobs:
       git clone https://github.com/racemusconsulting/poc-idl-cdl-files.git
     displayName: 'Checkout IDL and CDL Files'
 
-  - script: |
-      mvn clean install -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}
-    displayName: 'Build with Custom Artifact ID and Version'
-
   - task: Maven@3
     displayName: Build
     inputs:

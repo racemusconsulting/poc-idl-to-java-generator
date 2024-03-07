@@ -53,7 +53,7 @@ jobs:
       jdkVersionOption: '1.17'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
-      goals: 'clean -Dcomponent=${{ parameters.component }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
+      goals: 'clean verify -Dcomponent=${{ parameters.component }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
 
   - task: MavenAuthenticate@0
     inputs:

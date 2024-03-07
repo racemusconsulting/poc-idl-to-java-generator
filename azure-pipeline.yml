@@ -58,6 +58,6 @@ jobs:
       jdkArchitectureOption: 'x64'
       mavenAuthenticateFeed: true
       publishJUnitResults: false
-      goals: 'jar:jar deploy:deploy -Dcomponent=${{ parameters.component }}'
+      goals: 'jar:jar deploy:deploy -Dcomponent=${{ parameters.component }} -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}'
     displayName: 'Publish Artifact to Azure Artifacts'
   

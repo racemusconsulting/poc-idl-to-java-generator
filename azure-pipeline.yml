@@ -49,6 +49,11 @@ jobs:
       publishJUnitResults: true
       goals: 'clean -Dcomponent=${{ parameters.component }}  -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS'
 
+  - task: MavenAuthenticate@0
+    inputs:
+      artifactsFeeds: 'atg'
+      mavenServiceConnections: 'mavenfeed'
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'

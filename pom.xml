@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.racemus</groupId>
-    <artifactId>middleware-connector</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>xxxx</artifactId>
+    <version>xxxx</version>
     <name>middleware-connector</name>
     <description>IDL to Java generator</description>
 

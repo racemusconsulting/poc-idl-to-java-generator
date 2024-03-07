@@ -42,11 +42,6 @@ jobs:
       mvn clean install -Dproject.artifactId=${{ parameters.component }}-middleware-connector -Dproject.version=${{ parameters.libraryVersion }}
     displayName: 'Build with Custom Artifact ID and Version'
     
-  - script: |
-      mvn clean install -Dcomponent=${{ parameters.component }} -Dversion=${{ parameters.libraryVersion }} -DidlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/IDLS -DcdlFolderPath=poc-idl-cdl-files/${{ parameters.component }}/CDLS
-      echo "Library generation command executed"
-    displayName: 'Generate Library'
-  
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
